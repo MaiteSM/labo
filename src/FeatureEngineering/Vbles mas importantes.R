@@ -97,15 +97,41 @@ as.data.frame(dataset1) %>% group_by(clase_ternaria) %>%
 # Clientes con valores distintos de 0 indican la cantidad de variables en las
 # que se encuentran en riesgo
 
-riesgo <- function(dataset){
+riesgo <- function(dataset, campos){
+	
+	lims <- dataset %>% filter(clase_ternaria == "BAJA+2") %>%
+		
+	
+	dataset[ , paste0( campos, "_lim") := ifelse()]
+	
+	
+	
+	dataset[, riesgo := 0]
+	cortes <- matrix(NA)
 	
 	# Calculo los límites
-	ctrx_quarter_lim <- dataset[clase_ternaria == "BAJA+2",
-		             quantile(ctrx_quarter, 0.75)]
+	for (i in 1:length(campos)){
+		cortes[i,1] <- paste0(campos[i],"_lim")
+		cortes[i,2] <- dataset[clase_ternaria == "BAJA+2",
+			        quantile(campos[1], 0.75)]
+	}
 	
-	# Agrego
-	dataset[, ifelse(ctrx_quarter <= ctrx_quarter_lim, riesgo = riesgo + 1)]
-	
+	for (vble in campos) { 
+	# Agrego campos
+	dataset[, ifelse(vble <= paste0(vble,"_lim"), riesgo := riesgo + 1)]
+	}
+
 	ReportarCampos( dataset )
 }
 
+campos <- c("ctrx_quarter")
+vbles <- "ctrx_quarter"
+
+riesgo(dataset1, c("ctrx_quarter"))
+
+dataset <- dataset1
+
+dataset1 %>% group_by(numero_de_cliente) %>%
+	summarise(n = n())
+
+table(dataset1$clase_ternaria)
