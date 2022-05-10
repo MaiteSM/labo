@@ -1,0 +1,111 @@
+library(data.table)
+library(tidyverse)
+
+#Establezco el Working Directory
+setwd( "d:/Datos User/Desktop/Datos esc/MCD/12 Laboratorio de Implementacion/LII/" )
+
+#lectura de los datasets
+dataset1  <- fread("./datasets/paquete_premium_202011.csv")
+
+# mpasivos_margen: monto total de la ganancia que el banco ha obtenido
+# por el dinero/inversiones ue el cliente tiene en el banco
+ggplot(dataset1) +
+	aes(x = mpasivos_margen, y = clase_ternaria) +
+	geom_boxplot(show.legend = F) +
+	labs(x = "mpasivos_margen", y = "Clase")
+
+ggplot(dataset1) +
+	aes(x = mpasivos_margen, y = clase_ternaria) +
+	geom_boxplot(show.legend = F) +
+	labs(x = "mpasivos_margen", y = "Clase") +
+	scale_x_continuous(limits = c(0,10000))
+	
+as.data.frame(dataset1) %>% group_by(clase_ternaria) %>%
+	summarise(media = mean(mpasivos_margen),
+		sd = sd(mpasivos_margen),
+		mna = median(mpasivos_margen),
+		q1 = quantile(mpasivos_margen, 0.25),
+		q3 = quantile(mpasivos_margen, 0.75))
+
+
+# mcaja_ahorro: monto total de la caja de horro del paquete premium
+ggplot(dataset1) +
+	aes(x = mcaja_ahorro, y = clase_ternaria) +
+	geom_boxplot(show.legend = F) +
+	labs(x = "mcaja_ahorro", y = "Clase")
+
+ggplot(dataset1) +
+	aes(x = mcaja_ahorro, y = clase_ternaria) +
+	geom_boxplot(show.legend = F) +
+	labs(x = "mcaja_ahorro", y = "Clase") +
+	scale_x_continuous(limits = c(0,500000))
+
+as.data.frame(dataset1) %>% group_by(clase_ternaria) %>%
+	summarise(media = mean(mcaja_ahorro),
+		sd = sd(mcaja_ahorro),
+		mna = median(mcaja_ahorro),
+		q1 = quantile(mcaja_ahorro, 0.25),
+		q3 = quantile(mcaja_ahorro, 0.75))
+
+# mcuentas_saldo: saldo total de todas las cuentas del cliente, cajas de ahorr
+# cuentas corrientes, pesos y dolares, convertifo a pesos
+ggplot(dataset1) +
+	aes(x = mcuentas_saldo, y = clase_ternaria) +
+	geom_boxplot(show.legend = F) +
+	labs(x = "mcuentas_saldo", y = "Clase")
+
+ggplot(dataset1) +
+	aes(x = mcuentas_saldo, y = clase_ternaria) +
+	geom_boxplot(show.legend = F) +
+	labs(x = "mcuentas_saldo", y = "Clase") +
+	scale_x_continuous(limits = c(0,150000))
+
+as.data.frame(dataset1) %>% group_by(clase_ternaria) %>%
+	summarise(media = mean(mcuentas_saldo),
+		sd = sd(mcuentas_saldo),
+		mna = median(mcuentas_saldo),
+		q1 = quantile(mcuentas_saldo, 0.25),
+		q3 = quantile(mcuentas_saldo, 0.75))
+
+
+# ctrx_quarter: Cantidad de movimientos voluntarios en las cuentas 
+# bancarias ( no tarjeta de credito ) que el cliente 
+# realizó en los ultimos 90 dias
+ggplot(dataset1) +
+	aes(x = ctrx_quarter, y = clase_ternaria) +
+	geom_boxplot(show.legend = F) +
+	labs(x = "ctrx_quarter", y = "Clase")
+
+ggplot(dataset1) +
+	aes(x = ctrx_quarter, y = clase_ternaria) +
+	geom_boxplot(show.legend = F) +
+	labs(x = "ctrx_quarter", y = "Clase") +
+	scale_x_continuous(limits = c(0,500))
+
+as.data.frame(dataset1) %>% group_by(clase_ternaria) %>%
+	summarise(media = mean(ctrx_quarter),
+	          sd = sd(ctrx_quarter),
+	          mna = median(ctrx_quarter),
+	          q1 = quantile(ctrx_quarter, 0.25),
+	          q3 = quantile(ctrx_quarter, 0.75))
+
+# Función riesgo: score de factores de riesgo. Un cliente se considera en riesgo
+# si se encuentra por encima del tercer cuartil para una serie de variables
+# para las cuales se ha verificado que los clientes de la clase CONTINUA poseen
+# valores significativamente más altos que los clientes BAJA+1 y BAJA+2
+# Clientes con 0 no se encuentran en riesgo en ninguna variable
+# Clientes con valores distintos de 0 indican la cantidad de variables en las
+# que se encuentran en riesgo
+
+riesgo <- function(dataset){
+	
+	# Calculo los límites
+	ctrx_quarter_lim <- dataset[clase_ternaria == "BAJA+2",
+		             quantile(ctrx_quarter, 0.75)]
+	
+	# Agrego
+	dataset[, ifelse(ctrx_quarter <= ctrx_quarter_lim, riesgo = riesgo + 1)]
+	
+	ReportarCampos( dataset )
+}
+
