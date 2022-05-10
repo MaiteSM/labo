@@ -24,9 +24,10 @@ dataset  <- fread( "./datasets/paquete_premium.csv.gz", stringsAsFactors= TRUE)
 
 
 #dataset  <- dataset[  clase_ternaria =="BAJA+2" , ]
-dataset  <- dataset[  foto_mes>=202001  & foto_mes<=202011, ]
-dataset <- dataset [, uni := 0]
-dataset <- dataset [clase_ternaria == "CONTINUA", uni := runif(1)]
+dataset <- dataset[  foto_mes>=202001  & foto_mes<=202011, ]
+uni <- runif(nrow(dataset))
+dataset <- cbind(dataset, uni)
+dataset <- dataset [clase_ternaria != "CONTINUA", uni := 0]
 dataset <- dataset %>% filter(uni < 0.3)
 gc()
 
@@ -36,24 +37,26 @@ dataset  <- na.roughfix( dataset )
 
 #los campos que arbitrariamente decido considerar para el clustering
 #por supuesto, se pueden cambiar
-campos_buenos  <- c( "ctrx_quarter", "cpayroll_trx", "mcaja_ahorro", "mtarjeta_visa_consumo", "ctarjeta_visa_trx",
-                     "mcuentas_saldo", "mrentabilidad_annual", "mprestamos_personales", "mactivos_margen", "mpayroll",
-                     "Visa_mpagominimo", "Master_fechaalta", "cliente_edad", "chomebanking_trx", "Visa_msaldopesos",
-                     "Visa_Fvencimiento", "mrentabilidad", "Visa_msaldototal", "Master_Fvencimiento", "mcuenta_corriente",
-                     "Visa_mpagospesos", "Visa_fechaalta", "mcomisiones_mantenimiento", "Visa_mfinanciacion_limite",
-                     "mtransferencias_recibidas", "cliente_antiguedad", "Visa_mconsumospesos", "Master_mfinanciacion_limite",
-                     "mcaja_ahorro_dolares", "cproductos", "mcomisiones_otras", "thomebanking", "mcuenta_debitos_automaticos",
-                     "mcomisiones", "Visa_cconsumos", "ccomisiones_otras", "Master_status", "mtransferencias_emitidas",
-                     "mpagomiscuentas")
+# campos_buenos  <- c( "ctrx_quarter", "cpayroll_trx", "mcaja_ahorro", "mtarjeta_visa_consumo", "ctarjeta_visa_trx",
+#                      "mcuentas_saldo", "mrentabilidad_annual", "mprestamos_personales", "mactivos_margen", "mpayroll",
+#                      "Visa_mpagominimo", "Master_fechaalta", "cliente_edad", "chomebanking_trx", "Visa_msaldopesos",
+#                      "Visa_Fvencimiento", "mrentabilidad", "Visa_msaldototal", "Master_Fvencimiento", "mcuenta_corriente",
+#                      "Visa_mpagospesos", "Visa_fechaalta", "mcomisiones_mantenimiento", "Visa_mfinanciacion_limite",
+#                      "mtransferencias_recibidas", "cliente_antiguedad", "Visa_mconsumospesos", "Master_mfinanciacion_limite",
+#                      "mcaja_ahorro_dolares", "cproductos", "mcomisiones_otras", "thomebanking", "mcuenta_debitos_automaticos",
+#                      "mcomisiones", "Visa_cconsumos", "ccomisiones_otras", "Master_status", "mtransferencias_emitidas",
+#                      "mpagomiscuentas")
 
 
 
 #Ahora, a esperar mucho con este algoritmo del pasado que NO correr en paralelo, patetico
-modelo  <- randomForest( x= dataset[  , campos_buenos, with=FALSE ], 
-                         y= NULL, 
-                         ntree= 1000, #se puede aumentar a 10000
+modelo  <- randomForest( x= dataset, #[  , campos_buenos, with=FALSE ], 
+                         y= clase_ternaria, 
+                         ntree= 3000, #se puede aumentar a 10000
                          proximity= TRUE, 
-                         oob.prox=  TRUE )
+                         oob.prox=  TRUE,
+	          nodesize = 200,
+	          importance = TRUE)
 
 #genero los clusters jerarquicos
 hclust.rf  <- hclust( as.dist ( 1.0 - modelo$proximity),  #distancia = 1.0 - proximidad
