@@ -1,0 +1,7 @@
+source( "~/labo/src/lib/exp_lib.r" ) 
+exp_start( "FE8123" )
+exp_start( "TS8123" )
+exp_start( "HT8123" )
+exp_start( "FM8123" )
+exp_start( "SC8123" )
+exp_start( "KA8123" )

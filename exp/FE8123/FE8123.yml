@@ -1,9 +1,9 @@
 #solo agrego  lag1 y delta1  de las variables originales
 
 googlecloud:
-  RAM:   128
+  RAM:   256
   vCPU:    8
-  disk:  256
+  disk:  300
 
 
 experiment:
@@ -21,7 +21,7 @@ param:
   
   variablesmanuales: TRUE
 
-  acumulavars: FALSE   #a lo nuevo lo va aplicando
+  acumulavars: TRUE   #a lo nuevo lo va aplicando
 
   tendenciaYmuchomas: 
     correr: TRUE #Great power comes with great responsability
