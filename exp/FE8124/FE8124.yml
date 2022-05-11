@@ -16,7 +16,7 @@ experiment:
 param:
   dummiesNA: TRUE
 
-  corregir: TRUE    #se se corrige los campos/foto_mes  MALOS
+  corregir: FALSE    #se se corrige los campos/foto_mes  MALOS
   variablesdrift: [] #variables que se eliminan porque estan mal en el futuro
   
   variablesmanuales: TRUE
@@ -25,7 +25,7 @@ param:
 
   tendenciaYmuchomas: 
     correr: TRUE #Great power comes with great responsability
-    ventana: 6
+    ventana: 12
     tendencia: TRUE
     minimo:    TRUE
     maximo:    TRUE
@@ -34,10 +34,10 @@ param:
     ratiomax:  TRUE
 
 
-  #lags y sus deltas , 6 posiciones
-  lag:   [ TRUE, TRUE, FALSE, FALSE, FALSE, FALSE ]
-  delta: [ TRUE, TRUE, FALSE, FALSE, FALSE, FALSE ]
-  canaritosratio: [ 0.3, 0.3, 0, 0, 0, 0 ]
+  #lags y sus deltas , 12 posiciones
+  lag:   [ TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE ]
+  delta: [ TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE ]
+  canaritosratio: [ 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3 ]
 
   tony:  TRUE
 
