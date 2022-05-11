@@ -59,7 +59,7 @@ dataset <- dataset[, ":=" (clase_ternaria = NULL)]
 
 #Ahora, a esperar mucho con este algoritmo del pasado que NO correr en paralelo, patetico
 modelo1  <- randomForest( x= dataset, #[  , campos_buenos, with=FALSE ], 
-                         y= clase_ternaria, 
+                         y= clase, 
                          ntree= 300, #se puede aumentar a 10000
                          proximity= TRUE, 
                          oob.prox=  TRUE,

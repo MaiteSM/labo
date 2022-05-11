@@ -247,8 +247,84 @@ AgregarVariables  <- function( dataset )
   dataset[ , mvr_mconsumototal       := mv_mconsumototal  / mv_mlimitecompra ]
   dataset[ , mvr_mpagominimo         := mv_mpagominimo  / mv_mlimitecompra ]
 
-  #Aqui debe usted agregar sus propias nuevas variables
+#Aqui debe usted agregar sus propias nuevas variables
 
+  # cantidad de productos que tiene el cliente / ganancia del banco por inversiones
+  dataset[, invers_x_prod := cproductos / mpasivos_margen]
+  
+  # cantidad de productos que tiene el cliente / ganancia del banco por intereses
+  dataset[, inter_x_prod := cproductos / mactivos_margen]
+  
+  # cantidad de tarjetas master / ganancia del banco por inversiones
+  dataset[, invers_x_master := ctarjeta_master / mpasivos_margen]
+  
+  # cantidad de tarjetas visa / ganancia del banco por inversiones
+  dataset[, invers_x_visa := ctarjeta_visa / mpasivos_margen]
+  
+  # cantidad de tarjetas / ganancia del banco por inversiones
+  dataset[, invers_x_tarje := (ctarjeta_visa + ctarjeta_master) / mpasivos_margen]
+  
+  # cantidad de tarjetas / ganancia del banco por intereses
+  dataset[, inter_x_tarje := (ctarjeta_visa + ctarjeta_master) / mactivos_margen]
+  
+  # Cantidad de acreditaciones de haberes: 0 o más (de numérica a dicotómica)
+  dataset[ , cpayroll_trx_dico := ifelse( cpayroll_trx == 0, 0, 1)]
+  
+  # antiguedad medida en años enteros
+  dataset[, cliente_antig_anio := trunc(cliente_antiguedad / 12)]
+  
+  # antiguedad/edad
+  dataset[, antig_edad := cliente_antiguedad / cliente_edad]
+  
+  # todas las que reflejen montos, pasadas a dicotómicas (0 negativo, 1 positivo)
+  dataset[, mrentabilidad_dico := ifelse(mrentabilidad < 0, 0, 1)]
+  dataset[, mrentabilidad_annual_dico := ifelse(mrentabilidad_annual < 0, 0, 1)]
+  dataset[, mactivos_margen_dico := ifelse(mactivos_margen < 0, 0, 1)]
+  dataset[, mcuenta_corriente_adicional_dico := ifelse(mcuenta_corriente_adicional < 0, 0, 1)]
+  dataset[, mcuenta_corriente_dico := ifelse(mcuenta_corriente < 0, 0, 1)]
+  dataset[, mcaja_ahorro_dico := ifelse(mcaja_ahorro < 0, 0, 1)]
+  dataset[, mcaja_ahorro_adicional_dico := ifelse(mcaja_ahorro_adicional < 0, 0, 1)]
+  dataset[, mcaja_ahorro_dolares_dico := ifelse(mcaja_ahorro_dolares < 0, 0, 1)]
+  dataset[, mcuentas_saldo_dico := ifelse(mcuentas_saldo < 0, 0, 1)]
+  
+  # cantidad de productos (tarjetas, cuentas, etc) a dicotómicas (0 o 1 y más)
+  dataset[, cproductos_dico := ifelse(cproductos == 0, 0, 1)]
+  dataset[, tcuentas_dico := ifelse(tcuentas == 0, 0, 1)]
+  dataset[, ccuenta_corriente_dico := ifelse(ccuenta_corriente == 0, 0, 1)]
+  dataset[, ccaja_ahorro_dico := ifelse(ccaja_ahorro == 0, 0, 1)]
+  dataset[, ctarjeta_debito_dico := ifelse(ctarjeta_debito == 0, 0, 1)]
+  dataset[, ctarjeta_master_dico := ifelse(ctarjeta_master == 0, 0, 1)]
+  dataset[, cprestamos_personales_dico := ifelse(cprestamos_personales == 0, 0, 1)]
+  dataset[, cprestamos_prendarios_dico := ifelse(cprestamos_prendarios == 0, 0, 1)]
+  dataset[, cprestamos_hipotecarios_dico := ifelse(cprestamos_hipotecarios == 0, 0, 1)]
+  dataset[, cplazo_fijo_dico := ifelse(cplazo_fijo == 0, 0, 1)]
+  dataset[, cinversion1_dico := ifelse(cinversion1 == 0, 0, 1)]
+  dataset[, cinversion2_dico := ifelse(cinversion2 == 0, 0, 1)]
+  dataset[, cseguro_vida_dico := ifelse(cseguro_vida == 0, 0, 1)]
+  dataset[, cseguro_auto_dico := ifelse(cseguro_auto == 0, 0, 1)]
+  dataset[, cseguro_vivienda_dico := ifelse(cseguro_vivienda == 0, 0, 1)]
+  dataset[, cseguro_accidentes_personales_dico := ifelse(cseguro_accidentes_personales == 0, 0, 1)]
+  dataset[, ccuenta_debitos_automaticos_dico := ifelse(ccuenta_debitos_automaticos == 0, 0, 1)]
+  dataset[, ctarjeta_visa_debitos_automaticos_dico := ifelse(ctarjeta_visa_debitos_automaticos == 0, 0, 1)]
+  dataset[, ctarjeta_master_debitos_automaticos_dico := ifelse(ctarjeta_master_debitos_automaticos == 0, 0, 1)]
+  dataset[, ctarjeta_debitos_automaticos_dico := ifelse((ctarjeta_visa_debitos_automaticos + ctarjeta_master_debitos_automaticos) == 0, 0, 1)]
+  dataset[, cpagodeservicios_dico := ifelse(cpagodeservicios == 0, 0, 1)]
+  dataset[, cpagomiscuentas_dico := ifelse(cpagomiscuentas == 0, 0, 1)]
+  dataset[, ccajeros_propios_descuentos_dico := ifelse(ccajeros_propios_descuentos == 0, 0, 1)]
+  dataset[, ctarjeta_descuentos_dico := ifelse((ctarjeta_visa_descuentos + ctarjeta_master_descuentos) == 0, 0, 1)]
+  dataset[, ccomisiones_dico := ifelse((ccomisiones_mantenimiento + ccomisiones_otras) == 0, 0, 1)]
+  dataset[, cforex_dico := ifelse(cforex == 0, 0, 1)]
+  dataset[, cforex_buy_dico := ifelse(cforex_buy == 0, 0, 1)]
+  dataset[, cforex_sell_dico := ifelse(cforex_sell == 0, 0, 1)]
+  dataset[, ctransferencias_recibidas_dico := ifelse(ctransferencias_recibidas == 0, 0, 1)]
+  dataset[, ctransferencias_emitidas_dico := ifelse(ctransferencias_emitidas == 0, 0, 1)]
+  dataset[, cextraccion_autoservicio_dico := ifelse(cextraccion_autoservicio == 0, 0, 1)]
+  dataset[, ccheques_depositados_dico := ifelse(ccheques_depositados == 0, 0, 1)]
+  dataset[, ccheques_emitidos_dico := ifelse(ccheques_emitidos == 0, 0, 1)]
+  dataset[, ccheques_depositados_rechazados_dico := ifelse(ccheques_depositados_rechazados == 0, 0, 1)]
+  dataset[, ccheques_emitidos_rechazados_dico := ifelse(ccheques_emitidos_rechazados == 0, 0, 1)]
+  
+  
   #valvula de seguridad para evitar valores infinitos
   #paso los infinitos a NULOS
   infinitos      <- lapply(names(dataset),function(.name) dataset[ , sum(is.infinite(get(.name)))])
