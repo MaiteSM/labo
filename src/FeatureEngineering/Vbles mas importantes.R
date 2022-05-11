@@ -135,3 +135,27 @@ dataset1 %>% group_by(numero_de_cliente) %>%
 	summarise(n = n())
 
 table(dataset1$clase_ternaria)
+
+
+ids <- fread("./src/FeatureEngineering/algunos_ids.txt")
+
+# cambios en cantidad de productos
+dataset1 <- dataset %>% arrange(numero_de_cliente, foto_mes)
+clientes <- unique(dataset$numero_de_cliente)
+productos <- dataset %>% group_by(numero_de_cliente, foto_mes) %>%
+	summarise(max = max(cproductos), min = min(cproductos)) %>%
+	select(numero_de_cliente, max, min, foto_mes)
+productos <- dataset %>% select(numero_de_cliente, cproductos, foto_mes) %>%
+	group_by(numero_de_cliente, foto_mes) %>%
+	summarise(max = max(cproductos), min = min(cproductos)) %>%
+	select(numero_de_cliente, max, min, foto_mes)
+
+for (cliente in clientes){
+	
+}
+
+dataset[, cambio_prod := min(cprod), by = numero_de_cliente]
+
+
+
+
