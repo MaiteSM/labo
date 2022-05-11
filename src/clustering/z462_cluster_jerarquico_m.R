@@ -3,8 +3,7 @@
 # vCPU     8
 # disco  256 GB
 
-# PRUEBA 1: todos los BAJA+1, todos los BAJA+2 y el 2% de los CONTINUA del
-# período 202001-202011
+# PRUEBA 2: todos los BAJA+1, todos los BAJA+2 y el 10% de los CONTINUA del 202011
 
 #cluster jerárquico  utilizando "la distancia de Random Forest"
 #adios a las fantasias de k-means y las distancias métricas, cuanto tiempo perdido ...
@@ -28,11 +27,11 @@ dataset  <- fread( "./datasets/paquete_premium.csv.gz", stringsAsFactors= TRUE)
 
 # Creo una uniforme para seleccionar aleatoriamente al 2% de los CONTINUA
 # A los BAJA+1 y BAJA+2 les pongo 0 adrede para que queden todos seleccionados
-dataset <- dataset[  foto_mes>=202001  & foto_mes<=202011, ]
+dataset <- dataset[  foto_mes>=202011  & foto_mes<=202011, ]
 uni <- runif(nrow(dataset))
 dataset <- cbind(dataset, uni)
 dataset <- dataset [clase_ternaria != "CONTINUA", uni := 0]
-dataset <- dataset [uni < 0.02 , ]
+dataset <- dataset [uni < 0.10 , ]
 gc()
 
 #quito los nulos para que se pueda ejecutar randomForest,  Dios que algoritmo prehistorico ...
@@ -63,7 +62,7 @@ modelo1  <- randomForest( x= dataset, #[  , campos_buenos, with=FALSE ],
                          ntree= 300, #se puede aumentar a 10000
                          proximity= TRUE, 
                          oob.prox=  TRUE,
-	          nodesize = 100,
+	          nodesize = 50,
 	          importance = TRUE)
 
 #genero los clusters jerarquicos
@@ -72,8 +71,8 @@ hclust.rf  <- hclust( as.dist ( 1.0 - modelo1$proximity),  #distancia = 1.0 - pr
 
 #primero, creo la carpeta donde van los resultados
 dir.create( "./exp/", showWarnings= FALSE )
-dir.create( "./exp/ST4611", showWarnings= FALSE )
-setwd( "~/buckets/b1/exp/ST4611" )
+dir.create( "./exp/ST4612", showWarnings= FALSE )
+setwd( "~/buckets/b1/exp/ST4612" )
 
 
 #imprimo un pdf con la forma del cluster jerarquico
@@ -105,17 +104,17 @@ dataset[  , .N,  cluster2 ]  #tamaño de los clusters
 
 #grabo el dataset en el bucket, luego debe bajarse a la PC y analizarse
 fwrite( dataset,
-        file= "cluster_de_bajas1.txt",
+        file= "cluster_de_bajas2.txt",
         sep= "\t" )
 
 # grabo los archivos con la importancia
 importancia <- modelo1$importance
 fwrite( importancia,
-        file= "importancia1.txt",
+        file= "importancia2.txt",
         sep= "\t" )
 
 importanciaSD <- modelo1$importanceSD
 fwrite( importanciaSD,
-        file= "importanciaSD1.txt",
+        file= "importanciaSD2.txt",
         sep= "\t" )
 
