@@ -5,7 +5,7 @@ library(tidyverse)
 setwd( "d:/Datos User/Desktop/Datos esc/MCD/12 Laboratorio de Implementacion/LII/" )
 
 #lectura de los datasets
-dataset1  <- fread("./datasets/paquete_premium_202011.csv")
+data  <- fread("./datasets/paquete_premium_202011.csv")
 
 # mpasivos_margen: monto total de la ganancia que el banco ha obtenido
 # por el dinero/inversiones ue el cliente tiene en el banco
@@ -155,6 +155,38 @@ for (cliente in clientes){
 }
 
 dataset[, cambio_prod := min(cprod), by = numero_de_cliente]
+
+
+
+dataset[ foto_mes==201806,  
+         tcallcenter   :=  (dataset[ foto_mes == 201805, tcallcenter] +
+         	    	dataset[foto_mes == 201807, tcallcenter]) / 2 ]
+
+dataset %>% filter(foto_mes == 201806 | foto_mes == 201805 | foto_mes == 201807) %>% 
+	select(numero_de_cliente, foto_mes, tcallcenter) %>%
+	arrange(numero_de_cliente, foto_mes)
+
+
+dataset1 <- dataset1 %>% arrange(numero_de_cliente)
+dataset1[, reingreso := 0]
+for (i in 2:nrow(dataset1)){
+	if (dataset1[i, cliente_antiguedad] < dataset1[i-1, cliente_antiguedad]) {
+		dataset1[i, reingreso := 1] }
+}
+for (i in 1:nrow(dataset1)){
+	if (dataset1[i, reingreso] == 1) {
+		num <- dataset1[i, numero_de_cliente]
+	}
+	for (j in i:nrow(dataset1)) {
+		if (dataset1[j, numero_de_cliente] == num){
+			dataset1[j, reingreso] = 1
+		}
+	}
+}
+
+
+dataset1 %>% group_by(numero_de_cliente, foto_mes, cliente_antiguedad, reingreso) %>%
+	arrange(numero_de_cliente) %>% summarise(n = 1) 
 
 
 
