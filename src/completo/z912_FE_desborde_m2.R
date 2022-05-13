@@ -498,7 +498,8 @@ AgregarVariables  <- function( dataset )
 
   #valvula de seguridad para evitar valores infinitos
   #paso los infinitos a NULOS
-  infinitos      <- lapply(names(dataset),function(.name) dataset[ , sum(is.infinite(get(.name)))])
+  infinitos      <- lapply(names(dataset),
+  	          function(.name)dataset[ , sum(is.infinite(get(.name)))])
   infinitos_qty  <- sum( unlist( infinitos) )
   if( infinitos_qty > 0 )
   {
@@ -510,7 +511,8 @@ AgregarVariables  <- function( dataset )
   #valvula de seguridad para evitar valores NaN  que es 0/0
   #paso los NaN a 0 , decision polemica si las hay
   #se invita a asignar un valor razonable segun la semantica del campo creado
-  nans      <- lapply(names(dataset),function(.name) dataset[ , sum(is.nan(get(.name)))])
+  nans      <- lapply(names(dataset),
+  	     function(.name)dataset[ , sum(is.nan(get(.name)))])
   nans_qty  <- sum( unlist( nans) )
   if( nans_qty > 0 )
   {
