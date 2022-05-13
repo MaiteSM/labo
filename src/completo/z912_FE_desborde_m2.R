@@ -278,8 +278,11 @@ agrego_NA <- function(dataset){
 # variables que se indiquen
 
 riesgo <- function(dataset, vble, pct){
-	vble_lim <- dataset[clase_ternaria == "BAJA+2",quantile(vble, pct)]
-	dataset[, ifelse(vble <= vble_lim, paste0(vble,"_riesgo") := 1, paste0(vble,"_riesgo") := 0)]
+	for (var in vble){
+		vble_lim <- dataset[clase_ternaria == "BAJA+2",quantile(var, pct)]
+		dataset[, ifelse(vble <= vble_lim, paste0(var,"_riesgo") := 1, paste0(vble,"_riesgo") := 0)]
+	}
+
 }
 #------------------------------------------------------------------------------
 # Rangos

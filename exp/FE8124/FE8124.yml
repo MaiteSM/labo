@@ -24,55 +24,9 @@ param:
 
   riesgo: 
      data: dataset
-     vble: mpasivos_margen
-     pct: 0.75
-  riesgo: 
-     data: dataset
-     vble: cproductos
-     pct: 0.75
-  riesgo: 
-     data: dataset
-     vble: mcaja_ahorro
-     pct: 0.75
-  riesgo: 
-     data: dataset
-     vble: mdescubierto_preacordado
-     pct: 0.75
-  riesgo: 
-     data: dataset
-     vble: mcuentas_saldo
-     pct: 0.75
-  riesgo: 
-     data: dataset
-     vble: ctarjeta_visa
-     pct: 0.75
-  riesgo: 
-     data: dataset
-     vble: ctarjeta_visa_trx
-     pct: 0.75
-  riesgo: 
-     data: dataset
-     vble: mtarjeta_visa_consumo
-     pct: 0.75
-  riesgo: 
-     data: dataset
-     vble: mprestamos_personales
-     pct: 0.75
-  riesgo: 
-     data: dataset
-     vble: cpayroll_trx
-     pct: 0.75
-  riesgo: 
-     data: dataset
-     vble: mpayroll
-     pct: 0.75
-  riesgo: 
-     data: dataset
-     vble: ctrx_quarter
-     pct: 0.75
-  riesgo: 
-     data: dataset
-     vble: Visa_msaldototal
+     vble: c(mpasivos_margen,cproductos,mcaja_ahorro,mdescubierto_preacordado,
+     mcuentas_saldo,ctarjeta_visa,ctarjeta_visa_trx,mtarjeta_visa_consumo,
+     mprestamos_personales,mpayroll,ctrx_quarter,Visa_msaldototal)
      pct: 0.75
 
   variablesmanuales: TRUE
