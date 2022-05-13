@@ -5,7 +5,7 @@ library(tidyverse)
 setwd( "d:/Datos User/Desktop/Datos esc/MCD/12 Laboratorio de Implementacion/LII/" )
 
 #lectura de los datasets
-data  <- fread("./datasets/paquete_premium_202011.csv")
+dataset  <- fread("./datasets/paquete_premium_202011.csv")
 
 # mpasivos_margen: monto total de la ganancia que el banco ha obtenido
 # por el dinero/inversiones ue el cliente tiene en el banco

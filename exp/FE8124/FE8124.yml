@@ -23,10 +23,8 @@ param:
   rangos: TRUE
 
   riesgo: 
-     data: dataset
-     vble: c(mpasivos_margen,cproductos,mcaja_ahorro,mdescubierto_preacordado,
-     mcuentas_saldo,ctarjeta_visa,ctarjeta_visa_trx,mtarjeta_visa_consumo,
-     mprestamos_personales,mpayroll,ctrx_quarter,Visa_msaldototal)
+     dataset: dataset
+     vble: c(mpasivos_margen,cproductos,mcaja_ahorro,mdescubierto_preacordado,mcuentas_saldo,ctarjeta_visa,ctarjeta_visa_trx,mtarjeta_visa_consumo,mprestamos_personales,mpayroll,ctrx_quarter,Visa_msaldototal)
      pct: 0.75
 
   variablesmanuales: TRUE
