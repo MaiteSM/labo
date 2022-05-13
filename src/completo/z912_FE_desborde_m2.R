@@ -28,6 +28,7 @@ ReportarCampos  <- function( dataset )
   cat( "La cantidad de campos es ", ncol(dataset) , "\n" )
 }
 #------------------------------------------------------------------------------
+
 #Agrega al dataset una variable que va de 1 a 12, el mes, para que el modelo aprenda estacionalidad
 
 AgregarMes  <- function( dataset )
@@ -37,6 +38,7 @@ AgregarMes  <- function( dataset )
   ReportarCampos( dataset )
 }
 #------------------------------------------------------------------------------
+
 #Elimina las variables que uno supone hace Data Drifting
 
 DriftEliminar  <- function( dataset, variables )
@@ -46,6 +48,7 @@ DriftEliminar  <- function( dataset, variables )
   ReportarCampos( dataset )
 }
 #------------------------------------------------------------------------------
+
 #Autor:  Santiago Dellachiesa, UAustral 2021
 #A las variables que tienen nulos, les agrega una nueva variable el dummy de is es nulo o no {0, 1}
 
@@ -61,6 +64,7 @@ DummiesNA  <- function( dataset )
   ReportarCampos( dataset )
 }
 #------------------------------------------------------------------------------
+
 #Corrige poniendo a NA las variables que en ese mes estan dañadas
 
 Corregir  <- function( dataset )
@@ -173,6 +177,7 @@ Corregir  <- function( dataset )
   ReportarCampos( dataset )
 }
 #------------------------------------------------------------------------------
+
 # Agrego NAs
 agrego_NA <- function(dataset){
 	gc()
@@ -267,6 +272,94 @@ agrego_NA <- function(dataset){
 	dataset[, ifelse(ctarjeta_visa == 0, Visa_mpagominimo = NA, Visa_mpagominimo)]
 	
 	ReportarCampos( dataset )
+}
+#------------------------------------------------------------------------------
+# Riesgo: indicadora de valor superior al cuantil pct en la clase BAJA+2 en las
+# variables que se indiquen
+
+riesgo <- function(dataset, vble, pct){
+	vble_lim <- dataset[clase_ternaria == "BAJA+2",quantile(vble, pct)]
+	dataset[, ifelse(vble <= vble_lim, paste0(vble,"_riesgo") := 1, paste0(vble,"_riesgo") := 0)]
+}
+#------------------------------------------------------------------------------
+# Rangos
+rangos <- function(dataset){
+	dataset[, mrentabilidad_r := quantile(mrentabilidad)]
+	dataset[, mrentabilidad_annual_r := quantile(mrentabilidad_annual)]
+	dataset[, mcomisiones_r := quantile(mcomisiones)]
+	dataset[, mactivos_margen_r := quantile(mactivos_margen)]
+	dataset[, mpasivos_margen_r := quantile(mpasivos_margen)]
+	dataset[, mcuenta_corriente_adicional_r := quantile(mcuenta_corriente_adicional)]
+	dataset[, mcuenta_corriente_r := quantile(mcuenta_corriente)]
+	dataset[, mcaja_ahorro_r := quantile(mcaja_ahorro)]
+	dataset[, mcaja_ahorro_adicional_r := quantile(mcaja_ahorro_adicional)]
+	dataset[, mcaja_ahorro_dolares_r := quantile(mcaja_ahorro_dolares)]
+	dataset[, mdescubierto_preacordado_r := quantile(mdescubierto_preacordado)]
+	dataset[, mcuentas_saldo_r := quantile(mcuentas_saldo)]
+	dataset[, mautoservicio_r := quantile(mautoservicio)]
+	dataset[, mtarjeta_visa_consumo_r := quantile(mtarjeta_visa_consumo)]
+	dataset[, mtarjeta_master_consumo_r := quantile(mtarjeta_master_consumo)]
+	dataset[, mprestamos_personales_r := quantile(mprestamos_personales)]
+	dataset[, mprestamos_prendarios_r := quantile(mprestamos_prendarios)]
+	dataset[, mprestamos_hipotecarios_r := quantile(mprestamos_hipotecarios)]
+	dataset[, mplazo_fijo_dolares_r := quantile(mplazo_fijo_dolares)]
+	dataset[, mplazo_fijo_pesos_r := quantile(mplazo_fijo_pesos)]
+	dataset[, minversion1_pesos_r := quantile(minversion1_pesos)]
+	dataset[, minversion1_dolares_r := quantile(minversion1_dolares)]
+	dataset[, minversion2_r := quantile(minversion2)]
+	dataset[, mpayroll_r := quantile(mpayroll)]
+	dataset[, mpayroll2_r := quantile(mpayroll2)]
+	dataset[, mcuenta_debitos_automaticos_r := quantile(mcuenta_debitos_automaticos)]
+	dataset[, mtarjeta_visa_debitos_automaticos_r := quantile(mtarjeta_visa_debitos_automaticos)]
+	dataset[, mttarjeta_master_debitos_automaticos_r := quantile(mttarjeta_master_debitos_automaticos)]
+	dataset[, mpagodeservicios_r := quantile(mpagodeservicios)]
+	dataset[, mpagomiscuentas_r := quantile(mpagomiscuentas)]
+	dataset[, mcajeros_propios_descuentos_r := quantile(mcajeros_propios_descuentos)]
+	dataset[, mtarjeta_visa_descuentos_r := quantile(mtarjeta_visa_descuentos)]
+	dataset[, mtarjeta_master_descuentos_r := quantile(mtarjeta_master_descuentos)]
+	dataset[, mcomisiones_mantenimiento_r := quantile(mcomisiones_mantenimiento)]
+	dataset[, mcomisiones_otras_r := quantile(mcomisiones_otras)]
+	dataset[, mforex_buy_r := quantile(mforex_buy)]
+	dataset[, mforex_sell_r := quantile(mforex_sell)]
+	dataset[, mtransferencias_recibidas_r := quantile(mtransferencias_recibidas)]
+	dataset[, mtransferencias_emitidas_r := quantile(mtransferencias_emitidas)]
+	dataset[, mextraccion_autoservicio_r := quantile(mextraccion_autoservicio)]
+	dataset[, mcheques_depositados_r := quantile(mcheques_depositados)]
+	dataset[, mcheques_emitidos_r := quantile(mcheques_emitidos)]
+	dataset[, mcheques_depositados_rechazados_r := quantile(mcheques_depositados_rechazados)]
+	dataset[, mcheques_emitidos_rechazados_r := quantile(mcheques_emitidos_rechazados)]
+	dataset[, matm_r := quantile(matm)]
+	dataset[, matm_other_r := quantile(matm_other)]
+	dataset[, Master_mfinanciacion_limite_r := quantile(Master_mfinanciacion_limite)]
+	dataset[, Master_msaldototal_r := quantile(Master_msaldototal)]
+	dataset[, Master_msaldopesos_r := quantile(Master_msaldopesos)]
+	dataset[, Master_msaldodolares_r := quantile(Master_msaldodolares)]
+	dataset[, Master_mconsumospesos_r := quantile(Master_mconsumospesos)]
+	dataset[, Master_mconsumosdolares_r := quantile(Master_mconsumosdolares)]
+	dataset[, Master_mlimitecompra_r := quantile(Master_mlimitecompra)]
+	dataset[, Master_madelantopesos_r := quantile(Master_madelantopesos)]
+	dataset[, Master_madelantodolares_r := quantile(Master_madelantodolares)]
+	dataset[, Master_mpagado_r := quantile(Master_mpagado)]
+	dataset[, Master_mpagospesos_r := quantile(Master_mpagospesos)]
+	dataset[, Master_mpagosdolares_r := quantile(Master_mpagosdolares)]
+	dataset[, Master_fechaalta_r := quantile(Master_fechaalta)]
+	dataset[, Master_mconsumototal_r := quantile(Master_mconsumototal)]
+	dataset[, Master_mpagominimo_r := quantile(Master_mpagominimo)]
+	dataset[, Visa_mfinanciacion_limite_r := quantile(Visa_mfinanciacion_limite)]
+	dataset[, Visa_Finiciomora_r := quantile(Visa_Finiciomora)]
+	dataset[, Visa_msaldototal_r := quantile(Visa_msaldototal)]
+	dataset[, Visa_msaldopesos_r := quantile(Visa_msaldopesos)]
+	dataset[, Visa_msaldodolares_r := quantile(Visa_msaldodolares)]
+	dataset[, Visa_mconsumospesos_r := quantile(Visa_mconsumospesos)]
+	dataset[, Visa_mconsumosdolares_r := quantile(Visa_mconsumosdolares)]
+	dataset[, Visa_mlimitecompra_r := quantile(Visa_mlimitecompra)]
+	dataset[, Visa_madelantopesos_r := quantile(Visa_madelantopesos)]
+	dataset[, Visa_madelantodolares_r := quantile(Visa_madelantodolares)]
+	dataset[, Visa_mpagado_r := quantile(Visa_mpagado)]
+	dataset[, Visa_mpagospesos_r := quantile(Visa_mpagospesos)]
+	dataset[, Visa_mpagosdolares_r := quantile(Visa_mpagosdolares)]
+	dataset[, Visa_mconsumototal_r := quantile(Visa_mconsumototal)]
+	dataset[, Visa_mpagominimo_r := quantile(Visa_mpagominimo)]
 }
 #------------------------------------------------------------------------------
 #Esta es la parte que los alumnos deben desplegar todo su ingenio
@@ -372,56 +465,34 @@ AgregarVariables  <- function( dataset )
   # antiguedad/edad
   dataset[, antig_edad := cliente_antiguedad / cliente_edad]
   
-  # todas las que reflejen montos, pasadas a dicotómicas (0 negativo, 1 positivo)
-  dataset[, mrentabilidad_dico := ifelse(mrentabilidad < 0, 0, 1)]
-  dataset[, mrentabilidad_annual_dico := ifelse(mrentabilidad_annual < 0, 0, 1)]
-  dataset[, mactivos_margen_dico := ifelse(mactivos_margen < 0, 0, 1)]
-  dataset[, mcuenta_corriente_adicional_dico := ifelse(mcuenta_corriente_adicional < 0, 0, 1)]
-  dataset[, mcuenta_corriente_dico := ifelse(mcuenta_corriente < 0, 0, 1)]
-  dataset[, mcaja_ahorro_dico := ifelse(mcaja_ahorro < 0, 0, 1)]
-  dataset[, mcaja_ahorro_adicional_dico := ifelse(mcaja_ahorro_adicional < 0, 0, 1)]
-  dataset[, mcaja_ahorro_dolares_dico := ifelse(mcaja_ahorro_dolares < 0, 0, 1)]
-  dataset[, mcuentas_saldo_dico := ifelse(mcuentas_saldo < 0, 0, 1)]
+  # cantidad total de cuentas
+  dataset[, ccuenta := ccuenta_corriente + ccaja_ahorro]
   
-  # cantidad de productos (tarjetas, cuentas, etc) a dicotómicas (0 o 1 y más)
-  dataset[, cproductos_dico := ifelse(cproductos == 0, 0, 1)]
-  dataset[, tcuentas_dico := ifelse(tcuentas == 0, 0, 1)]
-  dataset[, ccuenta_corriente_dico := ifelse(ccuenta_corriente == 0, 0, 1)]
-  dataset[, ccaja_ahorro_dico := ifelse(ccaja_ahorro == 0, 0, 1)]
-  dataset[, ctarjeta_debito_dico := ifelse(ctarjeta_debito == 0, 0, 1)]
-  dataset[, ctarjeta_master_dico := ifelse(ctarjeta_master == 0, 0, 1)]
-  dataset[, cprestamos_personales_dico := ifelse(cprestamos_personales == 0, 0, 1)]
-  dataset[, cprestamos_prendarios_dico := ifelse(cprestamos_prendarios == 0, 0, 1)]
-  dataset[, cprestamos_hipotecarios_dico := ifelse(cprestamos_hipotecarios == 0, 0, 1)]
-  dataset[, cplazo_fijo_dico := ifelse(cplazo_fijo == 0, 0, 1)]
-  dataset[, cinversion1_dico := ifelse(cinversion1 == 0, 0, 1)]
-  dataset[, cinversion2_dico := ifelse(cinversion2 == 0, 0, 1)]
-  dataset[, cseguro_vida_dico := ifelse(cseguro_vida == 0, 0, 1)]
-  dataset[, cseguro_auto_dico := ifelse(cseguro_auto == 0, 0, 1)]
-  dataset[, cseguro_vivienda_dico := ifelse(cseguro_vivienda == 0, 0, 1)]
-  dataset[, cseguro_accidentes_personales_dico := ifelse(cseguro_accidentes_personales == 0, 0, 1)]
-  dataset[, ccuenta_debitos_automaticos_dico := ifelse(ccuenta_debitos_automaticos == 0, 0, 1)]
-  dataset[, ctarjeta_visa_debitos_automaticos_dico := ifelse(ctarjeta_visa_debitos_automaticos == 0, 0, 1)]
-  dataset[, ctarjeta_master_debitos_automaticos_dico := ifelse(ctarjeta_master_debitos_automaticos == 0, 0, 1)]
-  dataset[, ctarjeta_debitos_automaticos_dico := ifelse((ctarjeta_visa_debitos_automaticos + ctarjeta_master_debitos_automaticos) == 0, 0, 1)]
-  dataset[, cpagodeservicios_dico := ifelse(cpagodeservicios == 0, 0, 1)]
-  dataset[, cpagomiscuentas_dico := ifelse(cpagomiscuentas == 0, 0, 1)]
-  dataset[, ccajeros_propios_descuentos_dico := ifelse(ccajeros_propios_descuentos == 0, 0, 1)]
-  dataset[, ctarjeta_descuentos_dico := ifelse((ctarjeta_visa_descuentos + ctarjeta_master_descuentos) == 0, 0, 1)]
-  dataset[, ccomisiones_dico := ifelse((ccomisiones_mantenimiento + ccomisiones_otras) == 0, 0, 1)]
-  dataset[, cforex_dico := ifelse(cforex == 0, 0, 1)]
-  dataset[, cforex_buy_dico := ifelse(cforex_buy == 0, 0, 1)]
-  dataset[, cforex_sell_dico := ifelse(cforex_sell == 0, 0, 1)]
-  dataset[, ctransferencias_recibidas_dico := ifelse(ctransferencias_recibidas == 0, 0, 1)]
-  dataset[, ctransferencias_emitidas_dico := ifelse(ctransferencias_emitidas == 0, 0, 1)]
-  dataset[, cextraccion_autoservicio_dico := ifelse(cextraccion_autoservicio == 0, 0, 1)]
-  dataset[, ccheques_depositados_dico := ifelse(ccheques_depositados == 0, 0, 1)]
-  dataset[, ccheques_emitidos_dico := ifelse(ccheques_emitidos == 0, 0, 1)]
-  dataset[, ccheques_depositados_rechazados_dico := ifelse(ccheques_depositados_rechazados == 0, 0, 1)]
-  dataset[, ccheques_emitidos_rechazados_dico := ifelse(ccheques_emitidos_rechazados == 0, 0, 1)]
+  # Cantidad total de prestamos
+  dataset[, cprestamos := cprestamos_personales + cprestamos_prendarios + cprestamos_hipotecarios]
   
- 
+  # Monto total de prestamos
+  dataset[, mprestamos := mprestamos_personales + mprestamos_prendarios + mprestamos_hipotecarios]
   
+  # Cantidad total de inversiones
+  dataset[, cinversiones := cinversion1 + cinversion2]
+  
+  # Monto total de inversiones
+  dataset[, minversiones := minversion1_pesos + minversion1_dolares + minversion2]
+  
+  # Riesgo: cuartil (la hice función ahora, VERR)
+
+  # mpasivos_margen_lim <- dataset[clase_ternaria == "BAJA+2",quantile(mpasivos_margen, 0.75)]
+  # dataset[, ifelse(mpasivos_margen <= mpasivos_margen_lim, mpasivos_margen_riesgo := 1)]
+  # 
+  # cproductos_lim <- dataset[clase_ternaria == "BAJA+2",quantile(cproductos, 0.75)]
+  # dataset[, ifelse(cproductos <= cproductos_lim, cproductos := 1)]
+  # 
+  # cproductos_lim <- dataset[clase_ternaria == "BAJA+2",quantile(cproductos, 0.75)]
+  # dataset[, ifelse(cproductos <= cproductos_lim, cproductos := 1)]
+  # 
+}
+
   #valvula de seguridad para evitar valores infinitos
   #paso los infinitos a NULOS
   infinitos      <- lapply(names(dataset),function(.name) dataset[ , sum(is.infinite(get(.name)))])
@@ -446,7 +517,7 @@ AgregarVariables  <- function( dataset )
   }
 
   ReportarCampos( dataset )
-}
+
 #------------------------------------------------------------------------------
 #esta funcion supone que dataset esta ordenado por   <numero_de_cliente, foto_mes>
 #calcula el lag y el delta lag
@@ -722,6 +793,12 @@ AgregarMes( dataset )  #agrego el mes del año
 if( PARAM$dummiesNA )  DummiesNA( dataset )  #esta linea debe ir ANTES de Corregir  !!
 
 if( PARAM$corregir )  Corregir( dataset )  #esta linea debe ir DESPUES de  DummiesNA
+
+if( PARAM$agrego_NA )  agrego_NA( dataset )
+
+if( PARAM$riesgo ) riesgo(PARAM$riesgo$data, PARAM$riesgo$vble, PARAM$riesgo$pct)
+
+if( PARAM$rangos ) rangos( dataset )
 
 if( PARAM$variablesmanuales )  AgregarVariables( dataset )
 
