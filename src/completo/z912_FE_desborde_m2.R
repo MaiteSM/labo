@@ -798,6 +798,7 @@ if( PARAM$corregir )  Corregir( dataset )  #esta linea debe ir DESPUES de  Dummi
 
 if( PARAM$agrego_NA )  agrego_NA( dataset )
 
+cols  <- copy( setdiff( colnames(dataset), PARAM$const$campos_fijos ) )
 if( PARAM$tony) Tony( cols )
 
 # cols_riesgo  <- copy( setdiff( colnames(dataset), PARAM$const$campos_fijos ) )
