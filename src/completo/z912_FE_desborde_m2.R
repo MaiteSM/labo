@@ -798,7 +798,7 @@ if( PARAM$corregir )  Corregir( dataset )  #esta linea debe ir DESPUES de  Dummi
 
 if( PARAM$agrego_NA )  agrego_NA( dataset )
 
-if( PARAM$riesgo ) riesgo(PARAM$riesgo$dataset, PARAM$riesgo$vble, PARAM$riesgo$pct)
+if (riesgo(PARAM$riesgo$dataset, PARAM$riesgo$vble, PARAM$riesgo$pct)) riesgo(dataset)
 
 if( PARAM$rangos ) rangos( dataset )
 
