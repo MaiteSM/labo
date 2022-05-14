@@ -494,12 +494,11 @@ AgregarVariables  <- function( dataset )
   # cproductos_lim <- dataset[clase_ternaria == "BAJA+2",quantile(cproductos, 0.75)]
   # dataset[, ifelse(cproductos <= cproductos_lim, cproductos := 1)]
   # 
-}
+
 
   #valvula de seguridad para evitar valores infinitos
   #paso los infinitos a NULOS
-  infinitos      <- lapply(names(dataset),
-  	          function(.name)dataset[ , sum(is.infinite(get(.name)))])
+  infinitos      <- lapply(names(dataset),function(.name) dataset[ , sum(is.infinite(get(.name)))])
   infinitos_qty  <- sum( unlist( infinitos) )
   if( infinitos_qty > 0 )
   {
@@ -511,8 +510,7 @@ AgregarVariables  <- function( dataset )
   #valvula de seguridad para evitar valores NaN  que es 0/0
   #paso los NaN a 0 , decision polemica si las hay
   #se invita a asignar un valor razonable segun la semantica del campo creado
-  nans      <- lapply(names(dataset),
-  	     function(.name)dataset[ , sum(is.nan(get(.name)))])
+  nans      <- lapply(names(dataset),function(.name) dataset[ , sum(is.nan(get(.name)))])
   nans_qty  <- sum( unlist( nans) )
   if( nans_qty > 0 )
   {
@@ -522,7 +520,7 @@ AgregarVariables  <- function( dataset )
   }
 
   ReportarCampos( dataset )
-
+}
 #------------------------------------------------------------------------------
 #esta funcion supone que dataset esta ordenado por   <numero_de_cliente, foto_mes>
 #calcula el lag y el delta lag
@@ -815,34 +813,35 @@ cols_lagueables  <- copy( setdiff( colnames(dataset), PARAM$const$campos_fijos )
 
 if( PARAM$tendenciaYmuchomas$correr ) 
 {
-  p  <- PARAM$tendenciaYmuchomas
-
-  TendenciaYmuchomas( dataset, 
-                      cols= cols_lagueables,
-                      ventana=   p$ventana,
-                      tendencia= p$tendencia,
-                      minimo=    p$minimo,
-                      maximo=    p$maximo,
-                      promedio=  p$promedio,
-                      ratioavg=  p$ratioavg,
-                      ratiomax=  p$ratiomax
-                    )
-
+	p  <- PARAM$tendenciaYmuchomas
+	
+	TendenciaYmuchomas( dataset, 
+		     cols= cols_lagueables,
+		     ventana=   p$ventana,
+		     tendencia= p$tendencia,
+		     minimo=    p$minimo,
+		     maximo=    p$maximo,
+		     promedio=  p$promedio,
+		     ratioavg=  p$ratioavg,
+		     ratiomax=  p$ratiomax
+	)
+	
 }
 
 
 for( i in 1:length( PARAM$lag ) )
 {
-  if( PARAM$lag[i] )
-  {
-    #veo si tengo que ir agregando variables
-    if( PARAM$acumulavars )  cols_lagueables  <- setdiff( colnames(dataset), PARAM$const$campos_fijos )
-
-    Lags( cols_lagueables, i, PARAM$delta[ i ] )   #calculo los lags de orden  i
-
-    #elimino las variables poco importantes, para hacer lugar a las importantes
-    if( PARAM$canaritosratio[ i ] > 0 )  CanaritosImportancia( canaritos_ratio= unlist(PARAM$canaritosratio[ i ]) )
-  }
+	if( PARAM$lag[i] )
+	{
+		#veo si tengo que ir agregando variables
+		if( PARAM$acumulavars )  cols_lagueables  <- setdiff( colnames(dataset), PARAM$const$campos_fijos )
+		
+		cols_lagueables  <- intersect( colnames(dataset), cols_lagueables )
+		Lags( cols_lagueables, i, PARAM$delta[ i ] )   #calculo los lags de orden  i
+		
+		#elimino las variables poco importantes, para hacer lugar a las importantes
+		if( PARAM$canaritosratio[ i ] > 0 )  CanaritosImportancia( canaritos_ratio= unlist(PARAM$canaritosratio[ i ]) )
+	}
 }
 
 
@@ -850,6 +849,7 @@ for( i in 1:length( PARAM$lag ) )
 #dejo la clase como ultimo campo
 nuevo_orden  <- c( setdiff( colnames( dataset ) , PARAM$const$clase ) , PARAM$const$clase )
 setcolorder( dataset, nuevo_orden )
+
 
 
 #Grabo el dataset    https://www.youtube.com/watch?v=66CP-pq7Cx0
