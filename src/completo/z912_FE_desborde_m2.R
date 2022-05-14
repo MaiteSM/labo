@@ -286,7 +286,7 @@ agrego_NA <- function(dataset){
 #------------------------------------------------------------------------------
 # Rangos
 rangos <- function(dataset){
-	dataset[, mrentabilidad_r := quantile(mrentabilidad)]
+	dataset[, mrentabilidad_r := quantile(mrentabilidad, na.rm = TRUE)]
 	dataset[, mrentabilidad_annual_r := quantile(mrentabilidad_annual)]
 	dataset[, mcomisiones_r := quantile(mcomisiones)]
 	dataset[, mactivos_margen_r := quantile(mactivos_margen)]
