@@ -22,10 +22,9 @@ param:
   agrego_NA: TRUE
   rangos: TRUE
 
-  riesgo: 
-     dataset: dataset
-     vble: c(mpasivos_margen,cproductos,mcaja_ahorro,mdescubierto_preacordado,mcuentas_saldo,ctarjeta_visa,ctarjeta_visa_trx,mtarjeta_visa_consumo,mprestamos_personales,mpayroll,ctrx_quarter,Visa_msaldototal)
-     pct: 0.75
+  # riesgo: 
+  #    dataset: dataset
+  #    pct: 0.75
 
   variablesmanuales: TRUE
 
@@ -43,9 +42,9 @@ param:
 
 
   #lags y sus deltas , 12 posiciones
-  lag:   [ TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE ]
-  delta: [ TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE ]
-  canaritosratio: [ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5 ]
+  lag:   [ TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE ]
+  delta: [ TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE ]
+  canaritosratio: [ 0.5, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0.5 ]
 
   tony:  TRUE
 
