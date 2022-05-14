@@ -180,12 +180,12 @@ Corregir  <- function( dataset )
 
 # Agrego NAs
 agrego_NA <- function(dataset){
-	dataset[, ifelse(ccuenta_corriente == 0, mcuenta_corriente_adicional := NA, mcuenta_corriente_adicional := mcuenta_corriente_adicional)]
-	dataset[, ifelse(ccuenta_corriente == 0, mcuenta_corriente := NA, mcuenta_corriente := mcuenta_corriente)]
-	dataset[, ifelse(ccaja_ahorro == 0, mcaja_ahorro := NA, mcaja_ahorro := mcaja_ahorro)]
-	dataset[, ifelse(ccaja_ahorro == 0, mcaja_ahorro_adicional := NA, mcaja_ahorro_adicional := mcaja_ahorro_adicional)]
-	dataset[, ifelse(ctarjeta_debito == 0, ctarjeta_debito_trx := NA, ctarjeta_debito_trx := ctarjeta_debito_trx)]
-	dataset[, ifelse(ctarjeta_debito == 0, mautoservicio := NA, mautoservicio := mautoservicio)]
+	dataset[, ifelse(ccuenta_corriente == 0, mcuenta_corriente_adicional := NA, mcuenta_corriente_adicional)]
+	dataset[, ifelse(ccuenta_corriente == 0, mcuenta_corriente := NA, mcuenta_corriente)]
+	dataset[, ifelse(ccaja_ahorro == 0, mcaja_ahorro := NA, mcaja_ahorro )]
+	dataset[, ifelse(ccaja_ahorro == 0, mcaja_ahorro_adicional := NA, mcaja_ahorro_adicional )]
+	dataset[, ifelse(ctarjeta_debito == 0, ctarjeta_debito_trx := NA, ctarjeta_debito_trx)]
+	dataset[, ifelse(ctarjeta_debito == 0, mautoservicio := NA, mautoservicio)]
 	dataset[, ifelse(ctarjeta_visa == 0, ctarjeta_visa_trx := NA, ctarjeta_visa_trx)]
 	dataset[, ifelse(ctarjeta_visa == 0, mtarjeta_visa_consumo := NA, mtarjeta_visa_consumo)]
 	dataset[, ifelse(ctarjeta_master == 0, ctarjeta_master_trx := NA, ctarjeta_master_trx)]
