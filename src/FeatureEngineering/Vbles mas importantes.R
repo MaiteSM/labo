@@ -191,3 +191,8 @@ dataset1 %>% group_by(numero_de_cliente, foto_mes, cliente_antiguedad, reingreso
 
 
 
+dataset[ , cprod_cambio := lapply( .SD,  function(x){ x/mean(x, na.rm=TRUE)} ), 
+         by= foto_mes, 
+         .SDcols= cols]
+
+
