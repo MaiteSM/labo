@@ -279,7 +279,6 @@ agrego_NA <- function(dataset){
 riesgo <- function(cols){
 	for (var in cols){
 		vble_lim <- dataset[clase_ternaria == "BAJA+2",quantile(var, 0.75)]
-		dataset[, paste0(var,"_riesgo") := 0]
 		dataset[var <= vble_lim, paste0(var,"_riesgo") := 1]
 	}
 }
