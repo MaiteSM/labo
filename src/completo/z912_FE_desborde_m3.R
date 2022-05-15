@@ -277,9 +277,10 @@ agrego_NA <- function(dataset){
 # variables que se indiquen
 
 riesgo <- function(cols){
+	lim <- NA
 	for (var in cols){
-		paste0(var,"_lim") <- dataset[clase_ternaria == "BAJA+2",quantile(var, 0.75)]
-		dataset[var <= paste0(var,"_lim"), paste0(var,"_riesgo") := 1]
+		lim[var] <- dataset[clase_ternaria == "BAJA+2",quantile(var, 0.75)]
+		dataset[var <= lim[var], paste0(var,"_riesgo") := 1]
 	}
 }
 #------------------------------------------------------------------------------
@@ -800,7 +801,7 @@ if( PARAM$agrego_NA )  agrego_NA( dataset )
 cols  <- copy( setdiff( colnames(dataset), PARAM$const$campos_fijos ) )
 if( PARAM$tony) Tony( cols )
 
-if (PARAM$riesgo) riesgo(dataset)
+if (PARAM$riesgo) riesgo(cols)
 
 if( PARAM$rangos ) rangos( dataset )
 
