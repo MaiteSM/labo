@@ -12,6 +12,8 @@
 rm( list=ls() )  #remove all objects
 gc()             #garbage collection
 
+install.packages("~/labo/randomForest_4.6-14.tar.gz", repos = NULL, type = "source")
+
 require("data.table")
 require("randomForest")
 require("ranger")
@@ -98,12 +100,12 @@ fwrite( dataset,
 
 
 # grabo los archivos con la importancia
-importancia <- modelo1$importance
+importancia <- modelo$importance
 fwrite( importancia,
         file= "importancia2.txt",
         sep= "\t" )
 
-importanciaSD <- modelo1$importanceSD
+importanciaSD <- modelo$importanceSD
 fwrite( importanciaSD,
         file= "importanciaSD2.txt",
         sep= "\t" )

@@ -30,7 +30,7 @@ param:
       desde:  201910
       hasta:  202009
     excluir: [  ]
-    undersampling: [  ]
+    undersampling: [ {clase: "CONTINUA", prob: 0.5 } ]
 
   #donde valido
   validate:
@@ -39,7 +39,7 @@ param:
       desde:  
       hasta:  
     excluir: [ ]
-    undersampling: [ {clase: "CONTINUA", prob: 0.5 } ]
+    undersampling: [  ]
 
   #donde testeo
   test:

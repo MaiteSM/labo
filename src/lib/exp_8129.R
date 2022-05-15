@@ -1,0 +1,5 @@
+source( "~/labo/src/lib/exp_lib.r" ) 
+exp_start( "FE8126" )
+exp_start( "TS8129" )
+exp_start( "HT8129" )
+exp_start( "ZZ" )
