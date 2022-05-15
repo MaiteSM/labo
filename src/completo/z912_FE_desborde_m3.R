@@ -275,16 +275,9 @@ agrego_NA <- function(dataset){
 #------------------------------------------------------------------------------
 # Riesgo: indicadora de valor superior al cuantil pct en la clase BAJA+2 en las
 # variables que se indiquen
-percentil <- function(x){
-	limite <- quantile(x, 0.75)
-	if(x < limite) {riesgo <- 1}
-	else {riesgo <- 0}
-	return(riesgo)
-}
-
 riesgo <- function(cols){
-	dataset[, paste0(cols,"_riesgo") := lapply(.SD, function(x){percentil(x)}), 
-	        by= foto_mes, 
+	dataset[, paste0(cols,"_riesgo") := lapply(.SD, function(x){
+		ifelse(rank(x)/nrow(dataset) < 0.75, 1, 0)}), 
 	        .SDcols= cols]
 }
 #------------------------------------------------------------------------------
