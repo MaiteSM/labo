@@ -196,3 +196,32 @@ dataset[ , cprod_cambio := lapply( .SD,  function(x){ x/mean(x, na.rm=TRUE)} ),
          .SDcols= cols]
 
 
+
+# FUNCION
+riesgo <- function(cols){
+	for (var in cols){
+		paste0(var,"_lim") <- dataset[clase_ternaria == "BAJA+2",quantile(var, 0.75)]
+		dataset[var <= paste0(var,"_lim"), paste0(var,"_riesgo") := 1]
+	}
+}
+
+
+vble <- c(mpasivos_margen,cproductos,mcaja_ahorro,mdescubierto_preacordado,mcuentas_saldo,ctarjeta_visa,ctarjeta_visa_trx,mtarjeta_visa_consumo,mprestamos_personales,mpayroll,ctrx_quarter,Visa_msaldototal)
+
+
+var <- dataset[clase_ternaria == "BAJA+2",ctrx_quarter]
+
+#vble_lim <- dataset[clase_ternaria == "BAJA+2",quantile(var, 0.8)]
+vble_lim <- quantile(var, 0.8)
+dataset[, paste0(names(var),"_riesgo") := 0]
+dataset[ctrx_quarter <= vble_lim, paste0("ctrx_quarter","_riesgo") := 1]
+
+table(dataset$ctrx_quarter_riesgo)
+
+
+# PARAMS
+vcols_riesgo  <- copy( setdiff( colnames(dataset), PARAM$const$campos_fijos ) )
+if (riesgo(PARAM$riesgo$dataset, PARAM$riesgo$pct)) riesgo(dataset)
+
+
+# YML
