@@ -276,9 +276,9 @@ agrego_NA <- function(dataset){
 # Riesgo: indicadora de valor superior al cuantil pct en la clase BAJA+2 en las
 # variables que se indiquen
 
-riesgo <- function(cols, pct){
+riesgo <- function(cols){
 	for (var in cols){
-		vble_lim <- dataset[clase_ternaria == "BAJA+2",quantile(var, pct)]
+		vble_lim <- dataset[clase_ternaria == "BAJA+2",quantile(var, 0.75)]
 		dataset[, paste0(var,"_riesgo") := 0]
 		dataset[var <= vble_lim, paste0(var,"_riesgo") := 1]
 	}
@@ -801,7 +801,7 @@ if( PARAM$agrego_NA )  agrego_NA( dataset )
 cols  <- copy( setdiff( colnames(dataset), PARAM$const$campos_fijos ) )
 if( PARAM$tony) Tony( cols )
 
-if (riesgo(PARAM$riesgo$pct)) riesgo(dataset)
+if (PARAM$riesgo) riesgo(dataset)
 
 if( PARAM$rangos ) rangos( dataset )
 

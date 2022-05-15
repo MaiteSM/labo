@@ -22,8 +22,7 @@ param:
   agrego_NA: TRUE
   rangos: TRUE
 
-  riesgo:
-     pct: 0.75
+  riesgo: TRUE
 
   variablesmanuales: TRUE
 
@@ -31,7 +30,7 @@ param:
 
   tendenciaYmuchomas: 
     correr: TRUE #Great power comes with great responsability
-    ventana: 12
+    ventana: 9
     tendencia: TRUE
     minimo:    FALSE
     maximo:    FALSE
@@ -41,9 +40,9 @@ param:
 
 
   #lags y sus deltas , 12 posiciones
-  lag:   [ TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE ]
-  delta: [ TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE ]
-  canaritosratio: [ 0.5, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0.5 ]
+  lag:   [ FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE ]
+  delta: [ FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE ]
+  canaritosratio: [ 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0.5 ]
 
   tony:  TRUE
 
