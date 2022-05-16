@@ -7,7 +7,7 @@ googlecloud:
 
 
 experiment:
-  script: "src/completo/z999_ZZ_lightgbm_semillerio.r"
+  script: "src/completo/z991_ZZ_lightgbm.r"
   restart: TRUE
   name: "exp"
   requires:   [ "HT8128" ]
