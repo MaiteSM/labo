@@ -5,12 +5,17 @@ gc()             #garbage collection
 # Cargo paquetes
 require("data.table")
 require("tidyverse")
+require("gridExtra")
 
 #Establezco el Working Directory
 setwd( "d:/Datos User/Desktop/Datos esc/MCD/12 Laboratorio de Implementacion/LII/" )
 
 #lectura del dataset completo
 dataset  <- fread("./datasets/paquete_premium_202011.csv")
+
+prop.table(table(dataset$clase_ternaria))*100
+
+table(dataset$clase_ternaria)[1]*60000
 
 # CLUSTERING 1: TODOS LOS BAJA+1, TODOS LOS BAJA+2 Y EL 2% DE LOS CONTINUA
 # DEL PERÍODO 202001 A 202011
@@ -68,9 +73,9 @@ g1 <- ggplot() +
   	    ymax=medias2$mtarjeta_visa_consumo + (sd2$mtarjeta_visa_consumo)/sqrt(medias2$n)), 
   	width=0.4, colour="orange", alpha=0.9, size=1.3) +
   coord_flip() +
-  labs( x = "", y = "Consumo de tarjeta VISA") + 
-  theme_grey()
-
+  labs( x = "", title = "Consumo de tarjeta VISA", y = "Pesos ($)") + 
+  theme_classic()
+ratios2$mtarjeta_visa_consumo
 
 g2 <- ggplot() +
 	geom_bar( aes(x=c("CONTINUA","BAJA"), y=medias2$ctarjeta_visa_trx), 
@@ -79,10 +84,57 @@ g2 <- ggplot() +
 		    ymin=medias2$ctarjeta_visa_trx - (sd2$ctarjeta_visa_trx)/sqrt(medias2$n), 
 		    ymax=medias2$ctarjeta_visa_trx + (sd2$ctarjeta_visa_trx)/sqrt(medias2$n)), 
 		width=0.4, colour="orange", alpha=0.9, size=1.3) +
+	scale_y_continuous(breaks = seq(0,14,2), labels = seq(0,14,2)) +
 	coord_flip() +
-	labs( x = "", y = "Transacciones con tarjeta VISA")
+	labs( x = "", title = "Transacciones con tarjeta VISA", y = "Cantidad") + 
+	theme_classic()
+ratios2$ctarjeta_visa_trx
+	
+g3 <- ggplot() +
+	geom_bar( aes(x=c("CONTINUA","BAJA"), y=medias2$ctrx_quarter), 
+	          stat="identity", fill="skyblue", alpha=0.7) +
+	geom_errorbar( aes(x=c("CONTINUA","BAJA"), 
+		    ymin=medias2$ctrx_quarter - (sd2$ctrx_quarter)/sqrt(medias2$n), 
+		    ymax=medias2$ctrx_quarter + (sd2$ctrx_quarter)/sqrt(medias2$n)), 
+		width=0.4, colour="orange", alpha=0.9, size=1.3) +
+	#scale_y_continuous(breaks = seq(0,14,2), labels = seq(0,14,2)) +
+	coord_flip() +
+	labs( x = "", y = "Cantidad",
+	      title = "Movimientos voluntarios en las cuentas bancarias") + 
+	theme_classic()
+ratios2$ctrx_quarter
 
+grid.arrange(g1, g2, g3, ncol = 1)
+
+ratios2$Visa_msaldototal
+ratios2$Visa_mconsumospesos
+ratios2$Visa_mconsumototal 
+
+ratios2$mcomisiones_otras
+
+ratios2 <- t(rbind(colnames(ratios2), t(ratios2)))
 
 
 # CLUSTERING 3: TODOS LOS BAJA+2 DEL PERÍODO 201912 A 202011
 clus3  <- fread("./labo/exp/ST4613/cluster_de_bajas.txt")
+
+
+
+
+
+
+
+
+
+
+# APARTADO PARA GOOGLE CLOUD
+require("data.table")
+
+setwd( "~/buckets/b1/" )  #cambiar por la carpeta local
+
+#leo el dataset
+dataset  <- fread( "./datasets/paquete_premium.csv.gz", stringsAsFactors= TRUE)
+
+#evolucion de la cantidad de clientes
+table(dataset$foto_mes, dataset$clase_ternaria)
+
