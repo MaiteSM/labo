@@ -225,3 +225,18 @@ if (riesgo(PARAM$riesgo$dataset, PARAM$riesgo$pct)) riesgo(dataset)
 
 
 # YML
+
+
+
+percentil <- function(x){
+	limite <- quantile(x, 0.75)
+	if(x < limite) {riesgo <- 1}
+	else {riesgo <- 0}
+	return(riesgo)
+}
+
+riesgo <- function(cols){
+	dataset[, paste0(cols,"_riesgo") := lapply(.SD, function(x){percentil(x)}), 
+	        by= foto_mes, 
+	        .SDcols= cols]
+}
