@@ -1,0 +1,4 @@
+archivo	iteracion_bayesiana	ganancia
+futuro_prediccion_063.csv	63	15826000
+futuro_prediccion_062.csv	62	15704000
+futuro_prediccion_033.csv	33	15700000

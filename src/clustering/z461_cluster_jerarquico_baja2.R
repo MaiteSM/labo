@@ -62,8 +62,8 @@ hclust.rf  <- hclust( as.dist ( 1.0 - modelo$proximity),  #distancia = 1.0 - pro
 
 #primero, creo la carpeta donde van los resultados
 dir.create( "./exp/", showWarnings= FALSE )
-dir.create( "./exp/ST4613", showWarnings= FALSE )
-setwd( "~/buckets/b1/exp/ST4613" )
+dir.create( "./exp/ST4614", showWarnings= FALSE )
+setwd( "~/buckets/b1/exp/ST4614" )
 
 
 #imprimo un pdf con la forma del cluster jerarquico
@@ -72,11 +72,38 @@ plot( hclust.rf )
 dev.off()
 
 
-#genero 10 clusters
+#genero 3 clusters
 h <- 20
 distintos <- 0
 
-while(  h>0  &  !( distintos >=9 & distintos <=10 ) )
+while(  h>0  &  !( distintos >=2 & distintos <=3 ) )
+{
+	h <- h - 1 
+	rf.cluster  <- cutree( hclust.rf, h)
+	
+	dataset[  , cluster2 := NULL ]
+	dataset[  , cluster2 := rf.cluster ]
+	
+	distintos  <- nrow( dataset[  , .N,  cluster2 ] )
+	cat( distintos, " " )
+}
+
+#en  dataset,  la columna  cluster2  tiene el numero de cluster
+#sacar estadicas por cluster
+
+dataset[  , .N,  cluster2 ]  #tamaño de los clusters
+
+#grabo el dataset en el bucket, luego debe bajarse a la PC y analizarse
+fwrite( dataset,
+        file= "cluster_de_bajas3.txt",
+        sep= "\t" )
+
+
+#genero 4 clusters
+h <- 20
+distintos <- 0
+
+while(  h>0  &  !( distintos >=3 & distintos <=4 ) )
 {
   h <- h - 1 
   rf.cluster  <- cutree( hclust.rf, h)
@@ -95,18 +122,59 @@ dataset[  , .N,  cluster2 ]  #tamaño de los clusters
 
 #grabo el dataset en el bucket, luego debe bajarse a la PC y analizarse
 fwrite( dataset,
-        file= "cluster_de_bajas.txt",
+        file= "cluster_de_bajas4.txt",
         sep= "\t" )
 
 
-# grabo los archivos con la importancia
-importancia <- modelo$importance
-fwrite( importancia,
-        file= "importancia2.txt",
+#genero 5 clusters
+h <- 20
+distintos <- 0
+
+while(  h>0  &  !( distintos >=4 & distintos <=5 ) )
+{
+	h <- h - 1 
+	rf.cluster  <- cutree( hclust.rf, h)
+	
+	dataset[  , cluster2 := NULL ]
+	dataset[  , cluster2 := rf.cluster ]
+	
+	distintos  <- nrow( dataset[  , .N,  cluster2 ] )
+	cat( distintos, " " )
+}
+
+#en  dataset,  la columna  cluster2  tiene el numero de cluster
+#sacar estadicas por cluster
+
+dataset[  , .N,  cluster2 ]  #tamaño de los clusters
+
+#grabo el dataset en el bucket, luego debe bajarse a la PC y analizarse
+fwrite( dataset,
+        file= "cluster_de_bajas5.txt",
         sep= "\t" )
 
-importanciaSD <- modelo$importanceSD
-fwrite( importanciaSD,
-        file= "importanciaSD2.txt",
-        sep= "\t" )
 
+#genero 6 clusters
+h <- 20
+distintos <- 0
+
+while(  h>0  &  !( distintos >=5 & distintos <=6 ) )
+{
+	h <- h - 1 
+	rf.cluster  <- cutree( hclust.rf, h)
+	
+	dataset[  , cluster2 := NULL ]
+	dataset[  , cluster2 := rf.cluster ]
+	
+	distintos  <- nrow( dataset[  , .N,  cluster2 ] )
+	cat( distintos, " " )
+}
+
+#en  dataset,  la columna  cluster2  tiene el numero de cluster
+#sacar estadicas por cluster
+
+dataset[  , .N,  cluster2 ]  #tamaño de los clusters
+
+#grabo el dataset en el bucket, luego debe bajarse a la PC y analizarse
+fwrite( dataset,
+        file= "cluster_de_bajas6.txt",
+        sep= "\t" )
