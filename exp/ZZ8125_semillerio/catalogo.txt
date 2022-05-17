@@ -1,0 +1,10 @@
+distance	action	experiment	type	key	value
+2	HT	HT8125	file	BOlog	~/buckets/b1/exp/HT8125/BO_log.txt
+3	TS	TS8125	file	train_strategy	~/buckets/b1/exp/TS8125/TS_train_strategy.csv.gz
+3	TS	TS8125	file	train_final	~/buckets/b1/exp/TS8125/TS_train_final.csv.gz
+3	TS	TS8125	file	future_data	~/buckets/b1/exp/TS8125/TS_future_data.csv.gz
+4	FE	FE8125	file	dataset	~/buckets/b1/exp/FE8125/paquete_premium_ext.csv.gz
+5	DT	DT0001	file	dataset	~/buckets/b1/exp/DT0001/paquete_premium.csv.gz
+1	FM	ZZ8125_semillerio	file	tb_modelos	~/buckets/b1/exp/ZZ8125_semillerio/tb_modelos.txt
+1	SC	ZZ8125_semillerio	file	predicciones	~/buckets/b1/exp/ZZ8125_semillerio/tb_predicciones.txt
+1	KA	ZZ8125_semillerio	file	kaggle_submits	~/buckets/b1/exp/ZZ8125_semillerio/tb_submits.txt

@@ -1,0 +1,36 @@
+         used (Mb) gc trigger (Mb) max used (Mb)
+Ncells 268992 14.4     654385   35   443829 23.8
+Vcells 448384  3.5    8388608   64  1771062 13.6
+Loading required package: data.table
+Loading required package: primes
+Loading required package: lightgbm
+Loading required package: rlist
+Loading required package: yaml
+Loading required package: mlflow
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+[LightGBM] [Warning] Unknown parameter: experimento
+There were 26 warnings (use warnings() to see them)
